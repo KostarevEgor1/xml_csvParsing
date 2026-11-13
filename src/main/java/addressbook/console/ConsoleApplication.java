@@ -36,8 +36,10 @@ public class ConsoleApplication {
     private void processFile(Path path) {
         AddressParser parser = selectParser(path);
         StatisticsCollector statistics = new StatisticsCollector();
+        long start = System.nanoTime();
         parser.parse(path, statistics::add);
-        System.out.println("Файл обработан. Количество городов: " + statistics.getBuildingsByCity().size());
+        long elapsed = System.nanoTime() - start;
+        new StatisticsPrinter().print(statistics, elapsed);
     }
 
     private AddressParser selectParser(Path path) {
